@@ -1,229 +1,329 @@
 package cl.utem.meteo.domain.data;
 
 import cl.utem.meteo.domain.model.Seba;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
+/**
+ *
+ * Objeto json de https://redmeteo.cl
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RedMeteo extends Seba {
 
-    private String idEstacion;
-    private String nombre;
-    private double latitud;
-    private double longitud;
-    private long altitud;
-    private long idObservacion;
-    private OffsetDateTime fechaHora;
-    private Double temperatura;
-    private Double humedad;
-    private Double velocidadViento;
-    private Long direccionViento;
-    private Double radiacionSolar;
-    private Double presionAbsoluta;
-    private Double precipitacion;
-    private Double puntoRocio;
-    private Double rachaViento;
-    private Double presion;
-    private Double tasalluvia;
-    private Long ultravioleta;
-    private Double lluviadiaria;
-
+    /**
+     * Identificador de la estación que emite la observación.
+     */
     @JsonProperty("id_estacion")
-    public String getIDEstacion() {
+    private String idEstacion;
+
+    /**
+     * Nombre legible de la estación.
+     */
+    @JsonProperty("nombre")
+    private String nombre;
+
+    /**
+     * Latitud en grados decimales [-90, 90].
+     */
+    @JsonProperty("latitud")
+    private Double latitud;
+
+    /**
+     * Longitud en grados decimales [-180, 180].
+     */
+    @JsonProperty("longitud")
+    private Double longitud;
+
+    /**
+     * Altitud en metros sobre el nivel del mar.
+     */
+    @JsonProperty("altitud")
+    private Integer altitud;
+
+    /**
+     * Identificador propio de la observación (si lo entrega el origen).
+     */
+    @JsonProperty("id_observacion")
+    private String idObservacion;
+
+    /**
+     * Fecha y hora de la medición.
+     */
+    @JsonProperty("fecha_hora")
+    private OffsetDateTime fechaHora;
+
+    /**
+     * Temperatura (°C).
+     */
+    @JsonProperty("temperatura")
+    private Double temperatura;
+
+    /**
+     * Humedad relativa (%).
+     */
+    @JsonProperty("humedad")
+    private Double humedad;
+
+    /**
+     * Velocidad del viento (m/s o km/h).
+     */
+    @JsonProperty("velocidad_viento")
+    private Double velocidadViento;
+
+    /**
+     * Dirección del viento (grados 0–360).
+     */
+    @JsonProperty("direccion_viento")
+    private Long direccionViento;
+
+    /**
+     * Radiación solar (W/m²).
+     */
+    @JsonProperty("radiacion_solar")
+    private Double radiacionSolar;
+
+    /**
+     * Presión absoluta (hPa).
+     */
+    @JsonProperty("presion_absoluta")
+    private Double presionAbsoluta;
+
+    /**
+     * Precipitación del período/intervalo (mm).
+     */
+    @JsonProperty("precipitacion")
+    private Double precipitacion;
+
+    /**
+     * Punto de rocío (°C).
+     */
+    @JsonProperty("punto_rocio")
+    private Double puntoRocio;
+
+    /**
+     * Racha de viento (misma unidad que velocidad).
+     */
+    @JsonProperty("racha_viento")
+    private Double rachaViento;
+
+    /**
+     * Presión (hPa) – según definición de la fuente.
+     */
+    @JsonProperty("presion")
+    private Double presion;
+
+    /**
+     * Tasa de lluvia (mm/h). Clave principal 'tasalluvia'; acepta alias
+     * 'tasa_lluvia'.
+     */
+    @JsonProperty("tasalluvia")
+    @JsonAlias("tasa_lluvia")
+    private Double tasaLluvia;
+
+    /**
+     * Índice UV (entero).
+     */
+    @JsonProperty("ultravioleta")
+    private Long ultravioleta;
+
+    /**
+     * Lluvia diaria acumulada (mm). Clave principal 'lluviadiaria'; acepta
+     * alias 'lluvia_diaria'.
+     */
+    @JsonProperty("lluviadiaria")
+    @JsonAlias("lluvia_diaria")
+    private Double lluviaDiaria;
+
+    public String getIdEstacion() {
         return idEstacion;
     }
 
-    @JsonProperty("id_estacion")
-    public void setIDEstacion(String value) {
-        this.idEstacion = value;
+    public void setIdEstacion(String idEstacion) {
+        this.idEstacion = idEstacion;
     }
 
-    @JsonProperty("nombre")
     public String getNombre() {
         return nombre;
     }
 
-    @JsonProperty("nombre")
-    public void setNombre(String value) {
-        this.nombre = value;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    @JsonProperty("latitud")
-    public double getLatitud() {
+    public Double getLatitud() {
         return latitud;
     }
 
-    @JsonProperty("latitud")
-    public void setLatitud(double value) {
-        this.latitud = value;
+    public void setLatitud(Double latitud) {
+        this.latitud = latitud;
     }
 
-    @JsonProperty("longitud")
-    public double getLongitud() {
+    public Double getLongitud() {
         return longitud;
     }
 
-    @JsonProperty("longitud")
-    public void setLongitud(double value) {
-        this.longitud = value;
+    public void setLongitud(Double longitud) {
+        this.longitud = longitud;
     }
 
-    @JsonProperty("altitud")
-    public long getAltitud() {
+    public Integer getAltitud() {
         return altitud;
     }
 
-    @JsonProperty("altitud")
-    public void setAltitud(long value) {
-        this.altitud = value;
+    public void setAltitud(Integer altitud) {
+        this.altitud = altitud;
     }
 
-    @JsonProperty("id_observacion")
-    public long getIDObservacion() {
+    public String getIdObservacion() {
         return idObservacion;
     }
 
-    @JsonProperty("id_observacion")
-    public void setIDObservacion(long value) {
-        this.idObservacion = value;
+    public void setIdObservacion(String idObservacion) {
+        this.idObservacion = idObservacion;
     }
 
-    @JsonProperty("fecha_hora")
     public OffsetDateTime getFechaHora() {
         return fechaHora;
     }
 
-    @JsonProperty("fecha_hora")
-    public void setFechaHora(OffsetDateTime value) {
-        this.fechaHora = value;
+    public void setFechaHora(OffsetDateTime fechaHora) {
+        this.fechaHora = fechaHora;
     }
 
-    @JsonProperty("temperatura")
     public Double getTemperatura() {
         return temperatura;
     }
 
-    @JsonProperty("temperatura")
-    public void setTemperatura(Double value) {
-        this.temperatura = value;
+    public void setTemperatura(Double temperatura) {
+        this.temperatura = temperatura;
     }
 
-    @JsonProperty("humedad")
     public Double getHumedad() {
         return humedad;
     }
 
-    @JsonProperty("humedad")
-    public void setHumedad(Double value) {
-        this.humedad = value;
+    public void setHumedad(Double humedad) {
+        this.humedad = humedad;
     }
 
-    @JsonProperty("velocidad_viento")
     public Double getVelocidadViento() {
         return velocidadViento;
     }
 
-    @JsonProperty("velocidad_viento")
-    public void setVelocidadViento(Double value) {
-        this.velocidadViento = value;
+    public void setVelocidadViento(Double velocidadViento) {
+        this.velocidadViento = velocidadViento;
     }
 
-    @JsonProperty("direccion_viento")
     public Long getDireccionViento() {
         return direccionViento;
     }
 
-    @JsonProperty("direccion_viento")
-    public void setDireccionViento(Long value) {
-        this.direccionViento = value;
+    public void setDireccionViento(Long direccionViento) {
+        this.direccionViento = direccionViento;
     }
 
-    @JsonProperty("radiacion_solar")
     public Double getRadiacionSolar() {
         return radiacionSolar;
     }
 
-    @JsonProperty("radiacion_solar")
-    public void setRadiacionSolar(Double value) {
-        this.radiacionSolar = value;
+    public void setRadiacionSolar(Double radiacionSolar) {
+        this.radiacionSolar = radiacionSolar;
     }
 
-    @JsonProperty("presion_absoluta")
     public Double getPresionAbsoluta() {
         return presionAbsoluta;
     }
 
-    @JsonProperty("presion_absoluta")
-    public void setPresionAbsoluta(Double value) {
-        this.presionAbsoluta = value;
+    public void setPresionAbsoluta(Double presionAbsoluta) {
+        this.presionAbsoluta = presionAbsoluta;
     }
 
-    @JsonProperty("precipitacion")
     public Double getPrecipitacion() {
         return precipitacion;
     }
 
-    @JsonProperty("precipitacion")
-    public void setPrecipitacion(Double value) {
-        this.precipitacion = value;
+    public void setPrecipitacion(Double precipitacion) {
+        this.precipitacion = precipitacion;
     }
 
-    @JsonProperty("punto_rocio")
     public Double getPuntoRocio() {
         return puntoRocio;
     }
 
-    @JsonProperty("punto_rocio")
-    public void setPuntoRocio(Double value) {
-        this.puntoRocio = value;
+    public void setPuntoRocio(Double puntoRocio) {
+        this.puntoRocio = puntoRocio;
     }
 
-    @JsonProperty("racha_viento")
     public Double getRachaViento() {
         return rachaViento;
     }
 
-    @JsonProperty("racha_viento")
-    public void setRachaViento(Double value) {
-        this.rachaViento = value;
+    public void setRachaViento(Double rachaViento) {
+        this.rachaViento = rachaViento;
     }
 
-    @JsonProperty("presion")
     public Double getPresion() {
         return presion;
     }
 
-    @JsonProperty("presion")
-    public void setPresion(Double value) {
-        this.presion = value;
+    public void setPresion(Double presion) {
+        this.presion = presion;
     }
 
-    @JsonProperty("tasalluvia")
-    public Double getTasalluvia() {
-        return tasalluvia;
+    public Double getTasaLluvia() {
+        return tasaLluvia;
     }
 
-    @JsonProperty("tasalluvia")
-    public void setTasalluvia(Double value) {
-        this.tasalluvia = value;
+    public void setTasaLluvia(Double tasaLluvia) {
+        this.tasaLluvia = tasaLluvia;
     }
 
-    @JsonProperty("ultravioleta")
     public Long getUltravioleta() {
         return ultravioleta;
     }
 
-    @JsonProperty("ultravioleta")
-    public void setUltravioleta(Long value) {
-        this.ultravioleta = value;
+    public void setUltravioleta(Long ultravioleta) {
+        this.ultravioleta = ultravioleta;
     }
 
-    @JsonProperty("lluviadiaria")
-    public Double getLluviadiaria() {
-        return lluviadiaria;
+    public Double getLluviaDiaria() {
+        return lluviaDiaria;
     }
 
-    @JsonProperty("lluviadiaria")
-    public void setLluviadiaria(Double value) {
-        this.lluviadiaria = value;
+    public void setLluviaDiaria(Double lluviaDiaria) {
+        this.lluviaDiaria = lluviaDiaria;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("idEstacion", idEstacion)
+                .append("nombre", nombre)
+                .append("latitud", latitud)
+                .append("longitud", longitud)
+                .append("altitud", altitud)
+                .append("idObservacion", idObservacion)
+                .append("fechaHora", fechaHora)
+                .append("temperatura", temperatura)
+                .append("humedad", humedad)
+                .append("velocidadViento", velocidadViento)
+                .append("direccionViento", direccionViento)
+                .append("radiacionSolar", radiacionSolar)
+                .append("presionAbsoluta", presionAbsoluta)
+                .append("precipitacion", precipitacion)
+                .append("puntoRocio", puntoRocio)
+                .append("rachaViento", rachaViento)
+                .append("presion", presion)
+                .append("tasaLluvia", tasaLluvia)
+                .append("ultravioleta", ultravioleta)
+                .append("lluviaDiaria", lluviaDiaria)
+                .toString();
     }
 }
