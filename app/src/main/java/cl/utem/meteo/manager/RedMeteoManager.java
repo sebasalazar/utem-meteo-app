@@ -8,6 +8,7 @@ import cl.utem.meteo.domain.repository.StationRepository;
 import cl.utem.meteo.utils.RmUtils;
 import cl.utem.meteo.utils.TextUtils;
 import java.net.URI;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,5 +109,22 @@ public class RedMeteoManager {
                 LOGGER.error("No hay código de validación para la observación. Payload: {}", rm);
             }
         }
+    }
+
+    public Station getStation(final String code) {
+        Station station = null;
+        final int codeLength = StringUtils.length(code);
+        if (codeLength > 0 && codeLength < 256) {
+            station = stationRepository.findByCodeIgnoreCase(code);
+        }
+        return station;
+    }
+    
+    public List<Observation> getObservations(final Station station) {
+        if (station == null) {
+            return List.of();
+        }
+        
+        return observationRepository.findByStation(station);
     }
 }
