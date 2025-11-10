@@ -67,12 +67,13 @@ public class RedMeteoManager {
     @Transactional
     public void saveObs(final RedMeteo rm) {
         if (rm != null) {
-            Station station = stationRepository.findByCodeIgnoreCase(rm.getIdEstacion());
+            final String stationCode = TextUtils.upper(rm.getIdEstacion());
+            Station station = stationRepository.findByCodeIgnoreCase(stationCode);
             if (station == null) {
                 Station st = new Station();
                 st.setActive(true);
                 st.setAltitude(rm.getAltitud());
-                st.setCode(rm.getIdEstacion());
+                st.setCode(stationCode);
                 st.setLatitude(rm.getLatitud());
                 st.setLongitude(rm.getLongitud());
                 st.setName(rm.getNombre());
@@ -111,6 +112,11 @@ public class RedMeteoManager {
         }
     }
 
+    /**
+     *
+     * @param code Código de la estación
+     * @return el objeto Estación
+     */
     public Station getStation(final String code) {
         Station station = null;
         final int codeLength = StringUtils.length(code);
@@ -119,12 +125,17 @@ public class RedMeteoManager {
         }
         return station;
     }
-    
+
+    /**
+     *
+     * @param station Estación
+     * @return Listado de observaciones asociadas a la estación.
+     */
     public List<Observation> getObservations(final Station station) {
         if (station == null) {
             return List.of();
         }
-        
+
         return observationRepository.findByStation(station);
     }
 }
