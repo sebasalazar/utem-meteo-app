@@ -8,6 +8,7 @@ import cl.utem.meteo.domain.repository.StationRepository;
 import cl.utem.meteo.utils.RmUtils;
 import cl.utem.meteo.utils.TextUtils;
 import java.net.URI;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,12 +67,13 @@ public class RedMeteoManager {
     @Transactional
     public void saveObs(final RedMeteo rm) {
         if (rm != null) {
-            Station station = stationRepository.findByCodeIgnoreCase(rm.getIdEstacion());
+            final String stationCode = TextUtils.upper(rm.getIdEstacion());
+            Station station = stationRepository.findByCodeIgnoreCase(stationCode);
             if (station == null) {
                 Station st = new Station();
                 st.setActive(true);
                 st.setAltitude(rm.getAltitud());
-                st.setCode(rm.getIdEstacion());
+                st.setCode(stationCode);
                 st.setLatitude(rm.getLatitud());
                 st.setLongitude(rm.getLongitud());
                 st.setName(rm.getNombre());
@@ -108,5 +110,32 @@ public class RedMeteoManager {
                 LOGGER.error("No hay código de validación para la observación. Payload: {}", rm);
             }
         }
+    }
+
+    /**
+     *
+     * @param code Código de la estación
+     * @return el objeto Estación
+     */
+    public Station getStation(final String code) {
+        Station station = null;
+        final int codeLength = StringUtils.length(code);
+        if (codeLength > 0 && codeLength < 256) {
+            station = stationRepository.findByCodeIgnoreCase(code);
+        }
+        return station;
+    }
+
+    /**
+     *
+     * @param station Estación
+     * @return Listado de observaciones asociadas a la estación.
+     */
+    public List<Observation> getObservations(final Station station) {
+        if (station == null) {
+            return List.of();
+        }
+
+        return observationRepository.findByStation(station);
     }
 }

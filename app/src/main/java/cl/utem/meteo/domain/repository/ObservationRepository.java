@@ -2,6 +2,7 @@ package cl.utem.meteo.domain.repository;
 
 import cl.utem.meteo.domain.model.Observation;
 import cl.utem.meteo.domain.model.Station;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -40,4 +41,6 @@ public interface ObservationRepository extends JpaRepository<Observation, Long> 
      * @return la observación encontrada o {@code null} si no existe
      */
     Observation findByStationAndCodeIgnoreCase(Station station, String code);
+
+    List<Observation> findByStation(Station station);
 }

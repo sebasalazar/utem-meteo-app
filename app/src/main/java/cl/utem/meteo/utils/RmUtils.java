@@ -1,5 +1,10 @@
 package cl.utem.meteo.utils;
 
+import cl.utem.meteo.domain.data.MeteoObs;
+import cl.utem.meteo.domain.model.Observation;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Utilidades para obtener valores primitivos a partir de wrappers manejando
  * {@code null} con un valor por defecto. Se usa con los objetos de RedMeteo.
@@ -10,22 +15,22 @@ package cl.utem.meteo.utils;
  * </p>
  *
  * <h2>Advertencia</h2>
- * Usar -1 como valor por defecto es una convención: solo es seguro si en el
- * dominio de datos ese valor no es válido. Si -1 puede ser un valor legítimo,
- * hay que considerar usar otra estrategia (por ejemplo, valores por defecto
- * distintos, constantes de dominio o {@link java.util.Optional}).
+ * Usar -32768 como valor por defecto es una convención: solo es seguro si en el
+ * dominio de datos ese valor no es válido. Si -32768 puede ser un valor
+ * legítimo, hay que considerar usar otra estrategia (por ejemplo, valores por
+ * defecto distintos, constantes de dominio o {@link java.util.Optional}).
  */
 public final class RmUtils {
 
     /**
      * Valor por defecto para {@code double} cuando el wrapper es {@code null}.
      */
-    public static final double DEFAULT_DOUBLE = -1.0;
+    public static final double DEFAULT_DOUBLE = Short.MIN_VALUE;
 
     /**
      * Valor por defecto para {@code long} cuando el wrapper es {@code null}.
      */
-    public static final long DEFAULT_LONG = -1L;
+    public static final long DEFAULT_LONG = Short.MIN_VALUE;
 
     /**
      * Clase de utilidades: evitar instanciación.
@@ -56,5 +61,43 @@ public final class RmUtils {
      */
     public static long getValue(final Long value) {
         return (value != null) ? value : DEFAULT_LONG;
+    }
+
+    /**
+     * Convierte una lista de {@link Observation} a una lista inmutable de
+     * {@link MeteoObs}.
+     *
+     * <p>
+     * <strong>Política de nulidad</strong>:
+     * <ul>
+     * <li>Si {@code observations} es {@code null} o está vacía, devuelve
+     * {@code List.of()}.</li>
+     * </ul>
+     *
+     * <p>
+     * <strong>Rendimiento</strong>: O(n) en tiempo y O(n) en memoria. Se
+     * preasigna la capacidad para evitar realocaciones.
+     *
+     * <p>
+     * <strong>Inmutabilidad</strong>: El resultado es inmutable (no se puede
+     * modificar desde el exterior), lo que ayuda a mantener invariantes.
+     *
+     * @param observations lista de observaciones a convertir (puede ser
+     * {@code null} o vacía)
+     * @return lista inmutable de {@link MeteoObs}; nunca {@code null}
+     */
+    public static List<MeteoObs> buildObservations(final List<Observation> observations) {
+        if (observations == null || observations.isEmpty()) {
+            return List.of();
+        }
+
+        final List<MeteoObs> result = new ArrayList<>();
+        for (final Observation current : observations) {
+            if (current != null) {
+                result.add(new MeteoObs(current));
+            }
+        }
+        // Devuelve una vista inmutable (copia defensiva)
+        return List.copyOf(result);
     }
 }
