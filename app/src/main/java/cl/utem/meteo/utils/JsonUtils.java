@@ -1,6 +1,6 @@
 package cl.utem.meteo.utils;
 
-import cl.utem.meteo.domain.data.RedMeteo;
+import cl.utem.meteo.domain.data.out.RedMeteo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

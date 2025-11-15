@@ -1,6 +1,6 @@
 package cl.utem.meteo.api.v1;
 
-import cl.utem.meteo.domain.data.MeteoObs;
+import cl.utem.meteo.domain.data.out.MeteoObs;
 import cl.utem.meteo.domain.model.Station;
 import cl.utem.meteo.exception.NoDataException;
 import cl.utem.meteo.manager.RedMeteoManager;

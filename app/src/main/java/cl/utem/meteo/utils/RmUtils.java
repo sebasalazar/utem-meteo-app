@@ -1,6 +1,6 @@
 package cl.utem.meteo.utils;
 
-import cl.utem.meteo.domain.data.MeteoObs;
+import cl.utem.meteo.domain.data.out.MeteoObs;
 import cl.utem.meteo.domain.model.Observation;
 import java.util.ArrayList;
 import java.util.List;

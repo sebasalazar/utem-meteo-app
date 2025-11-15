@@ -1,6 +1,6 @@
 package cl.utem.meteo.tasks;
 
-import cl.utem.meteo.domain.data.RedMeteo;
+import cl.utem.meteo.domain.data.out.RedMeteo;
 import cl.utem.meteo.manager.RedMeteoManager;
 import cl.utem.meteo.utils.JsonUtils;
 import java.net.URI;

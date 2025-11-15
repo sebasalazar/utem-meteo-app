@@ -1,6 +1,6 @@
 package cl.utem.meteo.manager;
 
-import cl.utem.meteo.domain.data.RedMeteo;
+import cl.utem.meteo.domain.data.out.RedMeteo;
 import cl.utem.meteo.domain.model.Observation;
 import cl.utem.meteo.domain.model.Station;
 import cl.utem.meteo.domain.repository.ObservationRepository;

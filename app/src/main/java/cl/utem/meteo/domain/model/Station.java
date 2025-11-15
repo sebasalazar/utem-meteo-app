@@ -86,7 +86,7 @@ public class Station extends PkEntityBase {
     private Double longitude;
 
     /**
-     * Altitud en metros sobre el nivel del mar.
+     * Altitud en metros sobre el nivel del mar en metros.
      * <ul>
      * <li>Rango sugerido: [-500, 9000].</li>
      * <li>No nula.</li>

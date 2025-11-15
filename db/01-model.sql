@@ -45,7 +45,19 @@ CREATE UNIQUE INDEX ON observations(station_fk, UPPER(code));
 
 
 
-
+DROP TABLE IF EXISTS credentials CASCADE;
+CREATE TABLE credentias (
+    pk bigserial NOT NULL,
+    token varchar(255) NOT NULL,
+    username varchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
+    profile smallint NOT NULL,
+    created timestamptz NOT NULL DEFAULT NOW(),
+    updated timestamptz NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (pk)
+);
+CREATE UNIQUE INDEX ON credentials(token);
+CREATE UNIQUE INDEX ON credentials(UPPER(username));
 
 COMMIT;
 

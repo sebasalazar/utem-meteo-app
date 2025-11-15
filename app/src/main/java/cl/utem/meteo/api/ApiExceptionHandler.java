@@ -274,9 +274,9 @@ public class ApiExceptionHandler {
                 .map(m -> m.get("property") + ": " + m.get(MSG))
                 .collect(Collectors.joining(", "));
 
-        ProblemDetail pd = makeProblemDetail(request, HttpStatus.BAD_REQUEST, detail, ErrorCode.MP);
+        ProblemDetail pd = makeProblemDetail(request, HttpStatus.UNPROCESSABLE_ENTITY, detail, ErrorCode.MP);
         pd.setProperty("errors", errors);
-        return new ResponseEntity<>(pd, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(pd, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     /**

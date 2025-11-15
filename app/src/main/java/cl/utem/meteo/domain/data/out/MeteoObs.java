@@ -1,4 +1,4 @@
-package cl.utem.meteo.domain.data;
+package cl.utem.meteo.domain.data.out;
 
 import cl.utem.meteo.domain.model.Observation;
 import cl.utem.meteo.domain.model.Seba;
