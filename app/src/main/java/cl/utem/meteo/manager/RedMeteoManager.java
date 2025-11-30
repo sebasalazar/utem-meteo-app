@@ -5,6 +5,7 @@ import cl.utem.meteo.domain.model.Observation;
 import cl.utem.meteo.domain.model.Station;
 import cl.utem.meteo.domain.repository.ObservationRepository;
 import cl.utem.meteo.domain.repository.StationRepository;
+import cl.utem.meteo.manager.helper.CacheHelper;
 import cl.utem.meteo.utils.RmUtils;
 import cl.utem.meteo.utils.TextUtils;
 import java.net.URI;
@@ -13,6 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +35,8 @@ public class RedMeteoManager {
 
     private final StationRepository stationRepository;
     private final ObservationRepository observationRepository;
+    private final CacheHelper cacheHelper;
+
     /**
      * Endpoint público con los últimos datos.
      */
@@ -39,9 +44,10 @@ public class RedMeteoManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedMeteoManager.class);
 
     @Autowired
-    public RedMeteoManager(StationRepository stationRepository, ObservationRepository observationRepository) {
+    public RedMeteoManager(StationRepository stationRepository, ObservationRepository observationRepository, CacheHelper cacheHelper) {
         this.stationRepository = stationRepository;
         this.observationRepository = observationRepository;
+        this.cacheHelper = cacheHelper;
     }
 
     /**
@@ -121,7 +127,7 @@ public class RedMeteoManager {
         Station station = null;
         final int codeLength = StringUtils.length(code);
         if (codeLength > 0 && codeLength < 256) {
-            station = stationRepository.findByCodeIgnoreCase(code);
+            station = cacheHelper.getStation(code);
         }
         return station;
     }
@@ -136,6 +142,12 @@ public class RedMeteoManager {
             return List.of();
         }
 
-        return observationRepository.findByStation(station);
+        return cacheHelper.getObservations(station);
+    }
+
+    
+
+    public Page<Observation> getObservations(Pageable pageable) {
+        return observationRepository.findAll(pageable);
     }
 }

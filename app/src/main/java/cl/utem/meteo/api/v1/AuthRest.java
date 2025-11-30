@@ -1,6 +1,7 @@
 package cl.utem.meteo.api.v1;
 
 import cl.utem.meteo.domain.data.in.LoginVO;
+import cl.utem.meteo.domain.data.out.JwtVO;
 import cl.utem.meteo.domain.enums.Profile;
 import cl.utem.meteo.domain.model.Credential;
 import cl.utem.meteo.exception.AuthException;
@@ -34,7 +35,7 @@ public class AuthRest {
     @PostMapping(value = "/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity login(@RequestBody LoginVO body) {
+    public ResponseEntity<JwtVO> login(@RequestBody LoginVO body) {
         if (body == null) {
             throw new AuthException();
         }
@@ -58,8 +59,11 @@ public class AuthRest {
             throw new AuthException();
         }
 
-        String makeJwt = JwtUtils.makeJwt(TextUtils.normalize(jwtSign), "Login api", "api", credential);
-        return null;
-    }
+        final String makeJwt = JwtUtils.makeJwt(TextUtils.normalize(jwtSign), "Login api", "api", credential);
+        if (StringUtils.isBlank(makeJwt)) {
+            throw new AuthException();
+        }
 
+        return ResponseEntity.ok(new JwtVO(makeJwt));
+    }
 }

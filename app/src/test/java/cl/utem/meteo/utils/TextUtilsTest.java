@@ -32,51 +32,51 @@ public class TextUtilsTest {
      * Test of normalize method, of class TextUtils.
      */
     @Test
-    public void testNormalize() {
+    void testNormalize() {
         System.out.println("normalize");
-        
+
         // ARANGE
         String text = " Un   Ñandú         Chileno ";
         String expResult = "Un Ñandú Chileno";
-        
+
         // ACT
         String result = TextUtils.normalize(text);
-        
+
         // Assert
-        Assertions.assertEquals(expResult, result);        
+        Assertions.assertEquals(expResult, result);
     }
 
     /**
      * Test of upper method, of class TextUtils.
      */
     @Test
-    public void testUpper() {
+    void testUpper() {
         System.out.println("upper");
         // ARRANGE
         String text = " ñandú    2 ";
         String expResult = "ÑANDÚ 2";
-        
+
         // ACT
         String result = TextUtils.upper(text);
-        
+
         // ASSERT
-        Assertions.assertEquals(expResult, result);        
+        Assertions.assertEquals(expResult, result);
     }
 
     /**
      * Test of lower method, of class TextUtils.
      */
     @Test
-    public void testLower() {
+    void testLower() {
         System.out.println("lower");
         // ARRANGE
         String text = null;
         String expResult = "";
-        
+
         // ACT
         String result = TextUtils.lower(text);
-        
+
         // ASSERT
-        Assertions.assertEquals(expResult, result);        
+        Assertions.assertEquals(expResult, result);
     }
 }

@@ -4,6 +4,7 @@ import cl.utem.meteo.domain.data.out.MeteoObs;
 import cl.utem.meteo.domain.model.Observation;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.Page;
 
 /**
  * Utilidades para obtener valores primitivos a partir de wrappers manejando
@@ -87,6 +88,21 @@ public final class RmUtils {
      * @return lista inmutable de {@link MeteoObs}; nunca {@code null}
      */
     public static List<MeteoObs> buildObservations(final List<Observation> observations) {
+        if (observations == null || observations.isEmpty()) {
+            return List.of();
+        }
+
+        final List<MeteoObs> result = new ArrayList<>();
+        for (final Observation current : observations) {
+            if (current != null) {
+                result.add(new MeteoObs(current));
+            }
+        }
+        // Devuelve una vista inmutable (copia defensiva)
+        return List.copyOf(result);
+    }
+    
+    public static List<MeteoObs> buildObservations(final Page<Observation> observations) {
         if (observations == null || observations.isEmpty()) {
             return List.of();
         }

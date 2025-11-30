@@ -46,7 +46,7 @@ CREATE UNIQUE INDEX ON observations(station_fk, UPPER(code));
 
 
 DROP TABLE IF EXISTS credentials CASCADE;
-CREATE TABLE credentias (
+CREATE TABLE credentials (
     pk bigserial NOT NULL,
     token varchar(255) NOT NULL,
     username varchar(255) NOT NULL,
